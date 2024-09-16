@@ -73,26 +73,39 @@ let weather = {
     const dailyContainer = document.getElementById("daily-forecast-container");
     dailyContainer.innerHTML = ""; // Clear previous content
 
-    const dailyData = [];
-    for (let i = 7; i < data.length; i += 8) {
-      dailyData.push(data[i]);
-    }
+    const dailyTemps = {};
 
-    dailyData.forEach((day) => {
-      const { dt_txt } = day;
-      const { icon } = day.weather[0];
-      const { temp_min, temp_max } = day.main;
-      const date = new Date(dt_txt);
-      const dayOfWeek = date.toLocaleDateString("en-US", { weekday: "long" });
+    // Group forecast data by date
+    data.forEach((forecast) => {
+      const date = forecast.dt_txt.split(" ")[0]; // Extract date part
+      if (!dailyTemps[date]) {
+        dailyTemps[date] = {
+          temps: [],
+          icon: forecast.weather[0].icon,
+        };
+      }
+      dailyTemps[date].temps.push(forecast.main.temp); // Collect all temps for the day
+    });
+
+    // Loop through each day and calculate min and max temps
+    Object.keys(dailyTemps).forEach((date) => {
+      const dayTemps = dailyTemps[date];
+      const minTemp = Math.min(...dayTemps.temps); // Calculate min temp
+      const maxTemp = Math.max(...dayTemps.temps); // Calculate max temp
+      const dayOfWeek = new Date(date).toLocaleDateString("en-US", {
+        weekday: "long",
+      });
 
       const dailyItem = document.createElement("div");
       dailyItem.classList.add("daily-item");
       dailyItem.innerHTML = `
-          <p>${dayOfWeek}</p>
-          <img src="https://openweathermap.org/img/wn/${icon}.png" alt="Icon">
-          <p>Min: ${Math.round(temp_min)}°C</p>
-          <p>Max: ${Math.round(temp_max)}°C</p>
-        `;
+        <p>${dayOfWeek}</p>
+        <img src="https://openweathermap.org/img/wn/${
+          dayTemps.icon
+        }.png" alt="Icon">
+        <p>Min: ${Math.round(minTemp)}°C</p>
+        <p>Max: ${Math.round(maxTemp)}°C</p>
+      `;
       dailyContainer.appendChild(dailyItem);
     });
   },
