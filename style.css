@@ -55,7 +55,7 @@ input.search-bar {
   padding: 0.6em 1em;
   border-radius: 24px;
   background: #7c7c7c2b; /* Greyish background */
-  color: white;
+  color: rgba(255, 255, 255, 0.3);
   font-family: inherit;
   font-size: 105%;
   width: calc(100% - 60px);
@@ -65,6 +65,36 @@ input.search-bar {
 /* Transparent styling for the search bar after search */
 input.search-bar.transparent {
   background: rgba(255, 255, 255, 0.3); /* Transparent greyish background */
+}
+
+/* Date and Time Styling */
+.date-time {
+  font-size: 1.1em; /* Adjust size as needed */
+  color: rgba(255, 255, 255, 0.7); /* Slightly lighter color */
+  margin-bottom: 1em;
+  text-align: center; /* Center align for better look */
+}
+
+/* Adjusting existing styles for better integration */
+.card {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 2em;
+  border-radius: 30px;
+  width: 80%; /* Increase width to use more space on desktop */
+  max-width: 1200px;
+  margin: 1em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: visible;
+  position: relative; /* To position date-time in relation to the card */
+}
+
+.date-time {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  font-size: 1em;
+  color: #ddd; /* Light color for better contrast */
 }
 
 /* Weather content */
@@ -82,6 +112,17 @@ input.search-bar.transparent {
   width: 100px;
   height: 100px;
   margin-right: 10px;
+}
+
+/* Increased font size and capitalized text for description, humidity, and wind speed */
+.description {
+  font-size: 1.4em; /* Adjust size as needed */
+  text-transform: capitalize; /* Capitalize the first letter of each word */
+}
+
+.humidity,
+.wind {
+  font-size: 1.2em; /* Adjust size as needed */
 }
 
 /* Forecast Containers */
