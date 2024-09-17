@@ -18,7 +18,6 @@
 ---
 
 - Download or clone the repository
-```
 git clone https://github.com/AminurR30/MyWeatherApp.git
 ```
 - Go to the directory
