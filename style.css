@@ -8,9 +8,9 @@ body {
   padding: 10px;
   box-sizing: border-box;
   font-family: "Open Sans", sans-serif;
-  background: #222;
-  background-image: url("https://source.unsplash.com/1600x900/?nature,water,landscape");
+  background: #222; /* Fallback background */
   background-size: cover;
+  background-position: center;
   font-size: 100%;
 }
 
@@ -48,16 +48,23 @@ button {
   transition: 0.2s ease-in-out;
 }
 
+/* Default styling for the search bar */
 input.search-bar {
   border: none;
   outline: none;
   padding: 0.6em 1em;
   border-radius: 24px;
-  background: #7c7c7c2b;
+  background: #7c7c7c2b; /* Greyish background */
   color: white;
   font-family: inherit;
   font-size: 105%;
   width: calc(100% - 60px);
+  transition: background 0.3s ease; /* Smooth transition for background change */
+}
+
+/* Transparent styling for the search bar after search */
+input.search-bar.transparent {
+  background: rgba(255, 255, 255, 0.3); /* Transparent greyish background */
 }
 
 /* Weather content */
