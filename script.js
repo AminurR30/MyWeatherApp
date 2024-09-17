@@ -2,7 +2,7 @@ let weather = {
   apiKey: "67b92f0af5416edbfe58458f502b0a31",
 
   fetchWeather: function (city) {
-    // Fetch current weather
+    // Fetch current weather to get the temperature and humidity
     fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${this.apiKey}`
     )
@@ -15,8 +15,15 @@ let weather = {
       })
       .then((data) => {
         this.displayWeather(data);
-        this.updateDateTime(); // Update date and time after fetching weather
-      });
+        this.updateDateTime();
+
+        const { temp, humidity } = data.main;
+        const dewPoint = this.calculateDewPoint(temp, humidity);
+        document.querySelector(
+          ".dew-point"
+        ).innerText = `Dew point: ${dewPoint.toFixed(1)}°C`;
+      })
+      .catch((error) => console.error("Error fetching weather data:", error));
 
     // Fetch 5-day/3-hour forecast
     fetch(
@@ -28,6 +35,15 @@ let weather = {
         this.displayDailyForecast(data.list);
       })
       .catch((error) => console.error("Error fetching forecast data:", error));
+  },
+
+  // Dew point calculation function using Magnus formula
+  calculateDewPoint: function (temp, humidity) {
+    const a = 17.62;
+    const b = 243.12;
+    const alpha = (a * temp) / (b + temp) + Math.log(humidity / 100);
+    const dewPoint = (b * alpha) / (a - alpha);
+    return dewPoint;
   },
 
   displayWeather: function (data) {
