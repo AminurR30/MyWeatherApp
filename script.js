@@ -13,7 +13,10 @@ let weather = {
         }
         return response.json();
       })
-      .then((data) => this.displayWeather(data));
+      .then((data) => {
+        this.displayWeather(data);
+        document.querySelector(".search-bar").classList.add("transparent");
+      });
 
     // Fetch 5-day/3-hour forecast
     fetch(
@@ -42,7 +45,11 @@ let weather = {
     document.querySelector(".humidity").innerText = `Humidity: ${humidity}%`;
     document.querySelector(".wind").innerText = `Wind speed: ${speed} km/h`;
     document.querySelector(".weather").classList.remove("loading");
-    document.body.style.backgroundImage = `url('https://source.unsplash.com/1600x900/?${name}')`;
+
+    // Fetch a random image from Picsum and apply it as the background
+    document.body.style.backgroundImage = `url('https://picsum.photos/1600/900?random=${Math.floor(
+      Math.random() * 1000
+    )}')`;
   },
 
   displayHourlyForecast: function (hourlyData) {
