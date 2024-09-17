@@ -135,38 +135,39 @@ input.search-bar.transparent {
   margin-bottom: 2em;
 }
 
-#hourly-forecast-container {
+#hourly-forecast-container,
+#daily-forecast-container {
   display: flex;
-  flex-wrap: nowrap; /* Horizontal scrolling for hourly forecast */
+  flex-wrap: nowrap; /* Horizontal scrolling for daily forecast as well */
   justify-content: flex-start;
   gap: 10px;
   padding: 10px;
   scroll-behavior: smooth;
-  overflow-x: auto; /* Allow horizontal scroll for hourly */
-}
-
-#daily-forecast-container {
-  display: flex;
-  flex-wrap: wrap; /* Wrap items to prevent horizontal scroll */
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 10px;
-  overflow-x: hidden; /* Disable horizontal scroll for daily */
+  overflow-x: auto; /* Allow horizontal scroll for daily forecast */
 }
 
 /* Dark themed and responsive scrollbar */
-#hourly-forecast-container::-webkit-scrollbar {
+#hourly-forecast-container::-webkit-scrollbar,
+#daily-forecast-container::-webkit-scrollbar {
   height: 8px;
 }
 
-#hourly-forecast-container::-webkit-scrollbar-thumb {
+#hourly-forecast-container::-webkit-scrollbar-thumb,
+#daily-forecast-container::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.3);
   border-radius: 10px;
   border: 2px solid rgba(0, 0, 0, 0.8);
 }
 
-#hourly-forecast-container::-webkit-scrollbar-track {
+#hourly-forecast-container::-webkit-scrollbar-track,
+#daily-forecast-container::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.6);
+}
+
+/* Adjust size for daily forecast items */
+.daily-item {
+  flex: 0 0 140px; /* Adjusted size to fit in horizontal scroll */
+  height: auto;
 }
 
 /* Forecast items */
