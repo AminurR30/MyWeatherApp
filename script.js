@@ -31,14 +31,21 @@ let weather = {
   },
 
   displayWeather: function (data) {
-    const { name, sys } = data; // Destructure sys from data
+    const { name, sys } = data;
     const { icon, description } = data.weather[0];
-    const { temp, humidity } = data.main;
-    const { speed } = data.wind;
+    const { temp, humidity, feels_like, pressure, dew_point } = data.main;
+    const { speed, deg } = data.wind;
+    const { visibility } = data;
+
+    // Convert wind direction from degrees to cardinal direction
+    const windDirection = this.convertWindDirection(deg);
+
+    // Convert visibility from meters to kilometers and format it
+    const visibilityInKm = (visibility / 1000).toFixed(1);
 
     document.querySelector(
       ".city"
-    ).innerText = `Weather in ${name},${sys.country}`; // Include country code
+    ).innerText = `Weather in ${name},${sys.country}`;
     document.querySelector(
       ".icon"
     ).src = `https://openweathermap.org/img/wn/${icon}.png`;
@@ -46,13 +53,51 @@ let weather = {
       this.capitalize(description);
     document.querySelector(".temp").innerText = `${temp}°C`;
     document.querySelector(".humidity").innerText = `Humidity: ${humidity}%`;
-    document.querySelector(".wind").innerText = `Wind speed: ${speed} km/h`;
+    document.querySelector(
+      ".wind"
+    ).innerText = `Wind speed: ${speed} km/h, ${windDirection}`;
     document.querySelector(".weather").classList.remove("loading");
+
+    // Additional weather details
+    document.querySelector(
+      ".feels-like"
+    ).innerText = `Feels like: ${feels_like}°C`;
+    document.querySelector(".pressure").innerText = `Pressure: ${pressure} hPa`;
+    document.querySelector(
+      ".dew-point"
+    ).innerText = `Dew point: ${dew_point}°C`;
+    document.querySelector(
+      ".visibility"
+    ).innerText = `Visibility: ${visibilityInKm} km`;
 
     // Fetch a random image from Picsum and apply it as the background
     document.body.style.backgroundImage = `url('https://picsum.photos/1600/900?random=${Math.floor(
       Math.random() * 1000
     )}')`;
+  },
+
+  // Convert wind degrees to cardinal direction
+  convertWindDirection: function (degree) {
+    const directions = [
+      "N",
+      "NNE",
+      "NE",
+      "ENE",
+      "E",
+      "ESE",
+      "SE",
+      "SSE",
+      "S",
+      "SSW",
+      "SW",
+      "WSW",
+      "W",
+      "WNW",
+      "NW",
+      "NNW",
+    ];
+    const index = Math.round((degree % 360) / 22.5);
+    return directions[index];
   },
 
   capitalize: function (text) {
