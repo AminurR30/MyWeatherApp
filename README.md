@@ -15,7 +15,6 @@
  <li>Unsplash API</li>
 </ul>
 <h3>Steps to Use:</h3>
----
 
 - Download or clone the repository
 ```
