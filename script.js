@@ -15,7 +15,7 @@ let weather = {
       })
       .then((data) => {
         this.displayWeather(data);
-        document.querySelector(".search-bar").classList.add("transparent");
+        this.updateDateTime(); // Update date and time after fetching weather
       });
 
     // Fetch 5-day/3-hour forecast
@@ -40,7 +40,8 @@ let weather = {
     document.querySelector(
       ".icon"
     ).src = `https://openweathermap.org/img/wn/${icon}.png`;
-    document.querySelector(".description").innerText = description;
+    document.querySelector(".description").innerText =
+      this.capitalize(description);
     document.querySelector(".temp").innerText = `${temp}°C`;
     document.querySelector(".humidity").innerText = `Humidity: ${humidity}%`;
     document.querySelector(".wind").innerText = `Wind speed: ${speed} km/h`;
@@ -50,6 +51,26 @@ let weather = {
     document.body.style.backgroundImage = `url('https://picsum.photos/1600/900?random=${Math.floor(
       Math.random() * 1000
     )}')`;
+  },
+
+  capitalize: function (text) {
+    return text.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+  },
+
+  updateDateTime: function () {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, "0");
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+
+    const formattedDate = `${day}/${month}/${year}`;
+    const formattedTime = `${hours}:${minutes}`;
+
+    document.querySelector(
+      ".date-time"
+    ).innerText = `${formattedDate} | ${formattedTime}`;
   },
 
   displayHourlyForecast: function (hourlyData) {
@@ -134,3 +155,11 @@ document.querySelector(".search-bar").addEventListener("keyup", (event) => {
 });
 
 weather.fetchWeather("Kolkata"); // Default city
+
+// Update the date and time every minute
+setInterval(() => {
+  weather.updateDateTime();
+}, 60000); // 60000 milliseconds = 1 minute
+
+// Initial call to update date and time immediately
+weather.updateDateTime();
