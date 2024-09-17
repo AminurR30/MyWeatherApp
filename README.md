@@ -14,10 +14,11 @@
   <li>Open Weather API</li>
  <li>Unsplash API</li>
 </ul>
-#### Steps to Use:
+<h3>Steps to Use:</h3>
 ---
 
 - Download or clone the repository
+```
 git clone https://github.com/AminurR30/MyWeatherApp.git
 ```
 - Go to the directory
