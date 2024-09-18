@@ -27,3 +27,4 @@ git clone https://github.com/AminurR30/MyWeatherApp.git
 
 <h3> Screenshots </h3>  
 <img src = "MyWeatherApp.jpg" alt="Sample Image">
+<img src = "MyWeatherApp1.jpg" alt="Sample Image">
