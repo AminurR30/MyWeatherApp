@@ -25,6 +25,6 @@ git clone https://github.com/AminurR30/MyWeatherApp.git
 - Just Type the city name you want to know the weather of, and then click on the search button.
 - After that it will automatically display Weather, Humidity, Wind Speed of the city.
 
-<h3> Screenshots </h3>  
+<h3> Screenshots: </h3>  
 <img src = "MyWeatherApp.jpg" alt="Sample Image">
 <img src = "MyWeatherApp1.jpg" alt="Sample Image">
