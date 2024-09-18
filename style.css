@@ -102,27 +102,43 @@ input.search-bar.transparent {
   text-align: center;
 }
 
-.flex {
+.weather-info {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 0.1em;
 }
 
 .icon {
   width: 100px;
   height: 100px;
-  margin-right: 10px;
+  margin-right: 20px; /* Adjusted margin to fit better */
 }
 
-/* Increased font size and capitalized text for description, humidity, and wind speed */
-.description {
-  font-size: 1.4em; /* Adjust size as needed */
-  text-transform: capitalize; /* Capitalize the first letter of each word */
+.temp {
+  font-size: 3em; /* Adjust size as needed */
 }
 
-.humidity,
-.wind {
+.details {
   font-size: 1.2em; /* Adjust size as needed */
+  margin-bottom: 0.3em;
+}
+
+.details strong {
+  margin-right: 15px; /* Space between items */
+}
+
+.weather-table {
+  text-align: left;
+  font-size: 1.2em;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.weather-table .row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
 }
 
 /* Forecast Containers */
