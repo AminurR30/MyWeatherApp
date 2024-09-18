@@ -2,7 +2,6 @@ let weather = {
   apiKey: "67b92f0af5416edbfe58458f502b0a31",
 
   fetchWeather: function (city) {
-    // Fetch current weather to get the temperature and humidity
     fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${this.apiKey}`
     )
@@ -25,7 +24,6 @@ let weather = {
       })
       .catch((error) => console.error("Error fetching weather data:", error));
 
-    // Fetch 5-day/3-hour forecast
     fetch(
       `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${this.apiKey}`
     )
@@ -37,13 +35,28 @@ let weather = {
       .catch((error) => console.error("Error fetching forecast data:", error));
   },
 
-  // Dew point calculation function using Magnus formula
   calculateDewPoint: function (temp, humidity) {
     const a = 17.62;
     const b = 243.12;
     const alpha = (a * temp) / (b + temp) + Math.log(humidity / 100);
     const dewPoint = (b * alpha) / (a - alpha);
     return dewPoint;
+  },
+
+  getWindDescription: function (speed) {
+    if (speed <= 0.2) return "Calm";
+    else if (speed <= 1.5) return "Light Air";
+    else if (speed <= 3.3) return "Light Breeze";
+    else if (speed <= 5.4) return "Gentle Breeze";
+    else if (speed <= 7.9) return "Moderate Breeze";
+    else if (speed <= 10.7) return "Fresh Breeze";
+    else if (speed <= 13.8) return "Strong Breeze";
+    else if (speed <= 17.1) return "High Wind";
+    else if (speed <= 20.7) return "Gale";
+    else if (speed <= 24.4) return "Strong Gale";
+    else if (speed <= 28.4) return "Storm";
+    else if (speed <= 32.6) return "Violent Storm";
+    else return "Hurricane";
   },
 
   displayWeather: function (data) {
@@ -53,15 +66,12 @@ let weather = {
     const { speed, deg } = data.wind;
     const { visibility } = data;
 
-    // Convert wind direction from degrees to cardinal direction
     const windDirection = this.convertWindDirection(deg);
+    const windDescription = this.getWindDescription(speed);
 
-    // Convert visibility from meters to kilometers and format it
     const visibilityInKm = (visibility / 1000).toFixed(1);
 
-    document.querySelector(
-      ".city"
-    ).innerText = `Weather in ${name},${sys.country}`;
+    document.querySelector(".city").innerText = ` ${name},${sys.country}`;
     document.querySelector(
       ".icon"
     ).src = `https://openweathermap.org/img/wn/${icon}.png`;
@@ -74,7 +84,6 @@ let weather = {
     ).innerText = `Wind speed: ${speed} km/h, ${windDirection}`;
     document.querySelector(".weather").classList.remove("loading");
 
-    // Additional weather details
     document.querySelector(
       ".feels-like"
     ).innerText = `Feels like: ${feels_like}°C`;
@@ -86,13 +95,16 @@ let weather = {
       ".visibility"
     ).innerText = `Visibility: ${visibilityInKm} km`;
 
-    // Fetch a random image from Picsum and apply it as the background
+    // Add the wind description after the weather description
+    document.querySelector(
+      ".wind-description"
+    ).innerText = ` ${windDescription}`;
+
     document.body.style.backgroundImage = `url('https://picsum.photos/1600/900?random=${Math.floor(
       Math.random() * 1000
     )}')`;
   },
 
-  // Convert wind degrees to cardinal direction
   convertWindDirection: function (degree) {
     const directions = [
       "N",
@@ -162,27 +174,25 @@ let weather = {
 
   displayDailyForecast: function (data) {
     const dailyContainer = document.getElementById("daily-forecast-container");
-    dailyContainer.innerHTML = ""; // Clear previous content
+    dailyContainer.innerHTML = "";
 
     const dailyTemps = {};
 
-    // Group forecast data by date
     data.forEach((forecast) => {
-      const date = forecast.dt_txt.split(" ")[0]; // Extract date part
+      const date = forecast.dt_txt.split(" ")[0];
       if (!dailyTemps[date]) {
         dailyTemps[date] = {
           temps: [],
           icon: forecast.weather[0].icon,
         };
       }
-      dailyTemps[date].temps.push(forecast.main.temp); // Collect all temps for the day
+      dailyTemps[date].temps.push(forecast.main.temp);
     });
 
-    // Loop through each day and calculate min and max temps
     Object.keys(dailyTemps).forEach((date) => {
       const dayTemps = dailyTemps[date];
-      const minTemp = Math.min(...dayTemps.temps); // Calculate min temp
-      const maxTemp = Math.max(...dayTemps.temps); // Calculate max temp
+      const minTemp = Math.min(...dayTemps.temps);
+      const maxTemp = Math.max(...dayTemps.temps);
       const dayOfWeek = new Date(date).toLocaleDateString("en-US", {
         weekday: "long",
       });
@@ -217,12 +227,10 @@ document.querySelector(".search-bar").addEventListener("keyup", (event) => {
   }
 });
 
-weather.fetchWeather("Kolkata,IN"); // Default city with country code
+weather.fetchWeather("Kolkata,IN");
 
-// Update the date and time every minute
 setInterval(() => {
   weather.updateDateTime();
-}, 60000); // 60000 milliseconds = 1 minute
+}, 60000);
 
-// Initial call to update date and time immediately
 weather.updateDateTime();
