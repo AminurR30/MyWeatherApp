@@ -121,6 +121,7 @@ input.search-bar.transparent {
 
 .details {
   font-size: 1.2em; /* Adjust size as needed */
+  align-items: center;
   margin-bottom: 0.3em;
 }
 
